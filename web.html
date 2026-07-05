@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="tab-title">ABC Wood Works | Premium Doors & Custom CNC Works</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        wood: {
+                            50: '#fdfbf7',
+                            100: '#f6f0e2',
+                            200: '#ebd8b7',
+                            300: '#deb883',
+                            400: '#cf9451',
+                            500: '#bf7330',
+                            600: '#a65624',
+                            700: '#8a401f',
+                            800: '#70331c',
+                            900: '#5c2a1a',
+                            950: '#33150c',
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        html { scroll-behavior: smooth; }
+        .wood-pattern {
+            background-color: #33150c;
+            background-image: radial-gradient(rgba(255,255,255,0.15) 1px, transparent 0),
+                              radial-gradient(rgba(255,255,255,0.1) 1px, transparent 0);
+            background-size: 8px 8px;
+            background-position: 0 0, 4px 4px;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 font-sans selection:bg-wood-400 selection:text-white">
+
+    <!-- TOP CUSTOMIZER UTILITY BAR (Allows live renaming of workshop) -->
+    <div class="bg-wood-950 text-white text-xs py-3 px-4 sticky top-0 z-50 border-b border-wood-900 shadow-md">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <span class="bg-wood-500 text-white font-bold px-2 py-0.5 rounded text-[10px] tracking-wide uppercase">Interactive Editor</span>
+                <span>Want to customize the workshop name or styling? Try it in real-time here:</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-4">
+                <div class="flex items-center gap-1.5">
+                    <label for="editor-name-input" class="text-stone-400 font-semibold uppercase text-[10px]">Company Name:</label>
+                    <input type="text" id="editor-name-input" value="ABC Wood Works" oninput="updateWorkshopName(this.value)" 
+                           class="bg-wood-900/60 border border-wood-700 text-white px-2 py-1 rounded text-xs focus:ring-1 focus:ring-wood-400 focus:outline-none w-44">
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <span class="text-stone-400 font-semibold uppercase text-[10px]">Accent:</span>
+                    <button onclick="setTheme('amber')" class="w-4 h-4 rounded-full bg-amber-500 border border-white hover:scale-110 transition"></button>
+                    <button onclick="setTheme('wood')" class="w-4 h-4 rounded-full bg-wood-600 border border-white hover:scale-110 transition"></button>
+                    <button onclick="setTheme('stone')" class="w-4 h-4 rounded-full bg-stone-600 border border-white hover:scale-110 transition"></button>
+                    <button onclick="setTheme('emerald')" class="w-4 h-4 rounded-full bg-emerald-600 border border-white hover:scale-110 transition"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN HEADER & NAVIGATION -->
+    <header class="bg-stone-900 text-stone-100 z-40 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-24">
+                <!-- Branding -->
+                <div class="flex items-center gap-3">
+                    <div class="p-2.5 bg-gradient-to-br from-wood-500 to-wood-700 rounded-lg text-white shadow-md shadow-wood-950/40">
+                        <i class="fa-solid fa-compass-drafting text-2xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl md:text-2xl font-black tracking-tight block uppercase brand-name-text">ABC Wood Works</span>
+                        <span class="text-[10px] text-wood-400 font-semibold tracking-widest uppercase">Premium Joinery & CNC Specialist</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden lg:flex items-center space-x-8 font-medium text-sm">
+                    <a href="#about" class="hover:text-wood-400 transition">About Workshop</a>
+                    <a href="#doors" class="hover:text-wood-400 transition">Custom Doors</a>
+                    <a href="#cnc" class="hover:text-wood-400 transition">CNC Machining</a>
+                    <a href="#estimator" class="hover:text-wood-400 transition flex items-center gap-1.5">
+                        <i class="fa-solid fa-calculator text-wood-500"></i> Estimate Calculator
+                    </a>
+                    <a href="#gallery" class="hover:text-wood-400 transition">Our Portfolio</a>
+                    <a href="#contact" class="bg-wood-600 hover:bg-wood-500 text-white px-5 py-2.5 rounded-lg transition font-semibold shadow-lg shadow-wood-950/20">
+                        Get Custom Quote
+                    </a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="lg:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-stone-300 hover:text-white focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Dropdown -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-stone-950 border-t border-stone-800 py-4 px-6 space-y-4">
+            <a href="#about" onclick="toggleMobileMenu()" class="block text-stone-300 hover:text-white transition py-2">About Workshop</a>
+            <a href="#doors" onclick="toggleMobileMenu()" class="block text-stone-300 hover:text-white transition py-2">Custom Doors</a>
+            <a href="#cnc" onclick="toggleMobileMenu()" class="block text-stone-300 hover:text-white transition py-2">CNC Machining</a>
+            <a href="#estimator" onclick="toggleMobileMenu()" class="block text-stone-300 hover:text-white transition py-2">Estimate Calculator</a>
+            <a href="#gallery" onclick="toggleMobileMenu()" class="block text-stone-300 hover:text-white transition py-2">Our Portfolio</a>
+            <a href="#contact" onclick="toggleMobileMenu()" class="block bg-wood-600 text-white text-center py-2.5 rounded font-semibold">Get Custom Quote</a>
+        </div>
+    </header>
+
+    <!-- HERO HOME SECTION -->
+    <section class="relative bg-stone-950 text-white overflow-hidden py-24 md:py-36 px-4">
+        <!-- Visual wood grains overlay -->
+        <div class="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-900/90 to-transparent"></div>
+
+        <div class="max-w-7xl mx-auto relative z-10 grid lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-7">
+                <span id="badge-theme" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-wood-950 text-wood-400 border border-wood-800/60 uppercase tracking-wider mb-6">
+                    <span class="w-2 h-2 rounded-full bg-wood-500 animate-pulse"></span> Custom Architectural Millwork
+                </span>
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-black mb-6 leading-tight tracking-tight">
+                    From Concept to Wood, <br>With <span class="text-gradient bg-clip-text text-transparent bg-gradient-to-r from-wood-400 to-wood-200 brand-name-text">ABC Wood Works</span>
+                </h1>
+                <p class="text-base sm:text-lg text-stone-300 mb-8 max-w-xl leading-relaxed">
+                    We combine old-world woodworking craftsmanship with state-of-the-art multi-axis CNC technology to manufacture premium doors, detailed 3D relief carvings, and custom cabinetry components designed to last generations.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#estimator" class="bg-wood-500 hover:bg-wood-600 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-wood-600/30 transition flex items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Customize Door & Estimate
+                    </a>
+                    <a href="#doors" class="border-2 border-stone-700 hover:bg-stone-800 hover:text-white hover:border-stone-600 text-stone-300 font-bold px-8 py-4 rounded-xl transition">
+                        Browse Custom Products
+                    </a>
+                </div>
+            </div>
+
+            <!-- Features Cards / Quick Snapshot -->
+            <div class="lg:col-span-5 grid sm:grid-cols-2 gap-4">
+                <div class="bg-stone-900/80 backdrop-blur border border-stone-800 p-6 rounded-2xl shadow-xl hover:border-wood-600/30 transition">
+                    <div class="w-12 h-12 rounded-xl bg-wood-900/60 flex items-center justify-center text-wood-400 text-xl mb-4">
+                        <i class="fa-solid fa-door-open"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Exterior Doors</h3>
+                    <p class="text-xs text-stone-400 leading-relaxed">Grand entrance pivot doors, pre-hung structures, weather-tight sealing.</p>
+                </div>
+                <div class="bg-stone-900/80 backdrop-blur border border-stone-800 p-6 rounded-2xl shadow-xl hover:border-wood-600/30 transition">
+                    <div class="w-12 h-12 rounded-xl bg-wood-900/60 flex items-center justify-center text-wood-400 text-xl mb-4">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">CNC Precision</h3>
+                    <p class="text-xs text-stone-400 leading-relaxed">3D carved panels, nested base materials, geometric fluting and textures.</p>
+                </div>
+                <div class="bg-stone-900/80 backdrop-blur border border-stone-800 p-6 rounded-2xl shadow-xl hover:border-wood-600/30 transition">
+                    <div class="w-12 h-12 rounded-xl bg-wood-900/60 flex items-center justify-center text-wood-400 text-xl mb-4">
+                        <i class="fa-solid fa-tree"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Prime Lumber</h3>
+                    <p class="text-xs text-stone-400 leading-relaxed">Expertly dried Walnut, Oak, Ash, Teak, and engineered stable composites.</p>
+                </div>
+                <div class="bg-stone-900/80 backdrop-blur border border-stone-800 p-6 rounded-2xl shadow-xl hover:border-wood-600/30 transition">
+                    <div class="w-12 h-12 rounded-xl bg-wood-900/60 flex items-center justify-center text-wood-400 text-xl mb-4">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-2">Built To Last</h3>
+                    <p class="text-xs text-stone-400 leading-relaxed">Traditional mortise & tenon joints merged with modern mechanical hardware.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: ABOUT & CREDENTIALS -->
+    <section id="about" class="py-20 bg-stone-100 border-y border-stone-200">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Brand Video/Visual Block -->
+                <div class="relative group rounded-3xl overflow-hidden shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=800&q=80" alt="Woodworking Workshop" class="w-full object-cover h-[450px]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent flex flex-col justify-end p-8">
+                        <div class="flex items-center gap-3">
+                            <span class="w-3 h-3 rounded-full bg-emerald-500 animate-ping"></span>
+                            <p class="text-stone-300 text-sm font-semibold tracking-wider uppercase">Live Operations in Workshop</p>
+                        </div>
+                        <h4 class="text-white text-xl font-bold mt-1">Sourcing only sustainably certified FSC logs & engineered stock</h4>
+                    </div>
+                </div>
+
+                <!-- Text content -->
+                <div>
+                    <span class="text-wood-600 font-bold uppercase tracking-widest text-xs block mb-2">THE WORKSHOP EXPERIENCE</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-stone-950 mb-6">Mastering Grain & Code</h2>
+                    <p class="text-stone-600 leading-relaxed mb-6">
+                        At <span class="brand-name-text font-bold text-stone-900">ABC Wood Works</span>, we exist at the intersection of natural beauty and digital precision. While we respect and preserve ancient carpentry techniques, we understand that modern design demands unrivaled accuracy and scalability.
+                    </p>
+                    <p class="text-stone-600 leading-relaxed mb-8">
+                        Our workshop handles single custom architectural commissions for luxury residences, as well as high-volume batch processing of furniture parts, carved wall panels, and bespoke solid interior/exterior frames.
+                    </p>
+
+                    <!-- Key stats counters -->
+                    <div class="grid grid-cols-3 gap-6 pt-6 border-t border-stone-200">
+                        <div>
+                            <span class="block text-3xl font-black text-wood-700 font-serif">100%</span>
+                            <span class="text-[11px] font-bold text-stone-500 uppercase tracking-wider block mt-1">Premium Solid Wood</span>
+                        </div>
+                        <div>
+                            <span class="block text-3xl font-black text-wood-700 font-serif">0.1mm</span>
+                            <span class="text-[11px] font-bold text-stone-500 uppercase tracking-wider block mt-1">CNC Precision Tooling</span>
+                        </div>
+                        <div>
+                            <span class="block text-3xl font-black text-wood-700 font-serif">15+ Yr</span>
+                            <span class="text-[11px] font-bold text-stone-500 uppercase tracking-wider block mt-1">Carpentry Heritage</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: PREMIUM CUSTOM DOORS -->
+    <section id="doors" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-wood-600 font-bold uppercase tracking-widest text-xs block mb-3">PRODUCT PORTFOLIO</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-950 mb-4">Handcrafted Custom Wooden Doors</h2>
+                <p class="text-stone-600">Our signature structural elements. Engineered internally with moisture barriers and custom core reinforcements to ensure zero warping over decades of shifting seasons.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Door type 1 -->
+                <div class="bg-stone-50 rounded-2xl border border-stone-200/80 overflow-hidden hover:shadow-xl transition group">
+                    <div class="h-80 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=600&q=80" alt="Pivot Door" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute top-4 right-4 bg-wood-950/90 text-wood-300 text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded">Architectural Frontage</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-stone-950 mb-2">Modern Grand Pivot Entry</h3>
+                        <p class="text-sm text-stone-600 mb-6 leading-relaxed">Massive, floor-to-ceiling doors with heavy-duty offset hydraulic pivot hinges, complete with custom CNC integrated pulls and mortised smart locks.</p>
+                        <div class="flex items-center justify-between pt-4 border-t border-stone-200">
+                            <span class="text-xs font-semibold text-stone-500">Popular Species: Black Walnut</span>
+                            <a href="#estimator" class="text-wood-600 font-bold hover:text-wood-800 text-sm flex items-center gap-1">Configure <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Door type 2 -->
+                <div class="bg-stone-50 rounded-2xl border border-stone-200/80 overflow-hidden hover:shadow-xl transition group">
+                    <div class="h-80 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80" alt="Barn Door" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute top-4 right-4 bg-wood-950/90 text-wood-300 text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded">Interior Luxury</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-stone-950 mb-2">Slatted Acoustic Panel Passages</h3>
+                        <p class="text-sm text-stone-600 mb-6 leading-relaxed">Beautiful sliding barn styles or swing doors layered with individually machined solid oak slats that dampen sound while boosting interior aesthetics.</p>
+                        <div class="flex items-center justify-between pt-4 border-t border-stone-200">
+                            <span class="text-xs font-semibold text-stone-500">Popular Species: White Oak</span>
+                            <a href="#estimator" class="text-wood-600 font-bold hover:text-wood-800 text-sm flex items-center gap-1">Configure <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Door type 3 -->
+                <div class="bg-stone-50 rounded-2xl border border-stone-200/80 overflow-hidden hover:shadow-xl transition group">
+                    <div class="h-80 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80" alt="Traditional Classic" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute top-4 right-4 bg-wood-950/90 text-wood-300 text-[10px] uppercase tracking-widest font-bold px-3 py-1 rounded">Timeless</span>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-stone-950 mb-2">Traditional Frame & Panel</h3>
+                        <p class="text-sm text-stone-600 mb-6 leading-relaxed">Classic architectures displaying beautiful floating-panel designs, machined beading profiles, and genuine mortise-and-tenon joints for lifelong strength.</p>
+                        <div class="flex items-center justify-between pt-4 border-t border-stone-200">
+                            <span class="text-xs font-semibold text-stone-500">Popular Species: Red Oak, Cherry</span>
+                            <a href="#estimator" class="text-wood-600 font-bold hover:text-wood-800 text-sm flex items-center gap-1">Configure <i class="fa-solid fa-chevron-right text-xs"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: CNC WORKS -->
+    <section id="cnc" class="py-24 bg-stone-950 text-stone-200 relative overflow-hidden">
+        <!-- Abstract glowing wood circuit patterns mimicking CNC tools in background -->
+        <div class="absolute inset-0 opacity-5 bg-[radial-gradient(#bf7330_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <!-- Visuals of 3D router and detailing -->
+                <div>
+                    <span class="text-wood-400 font-bold uppercase tracking-widest text-xs block mb-3">DIGITAL WOOD CARVING</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-6">Multi-Axis CNC Machining & Complex Routing</h2>
+                    <p class="text-stone-300 leading-relaxed mb-6">
+                        We house state-of-the-art flatbed CNC routers capable of multi-tool nested carving. This allows us to repeat incredibly intricate 3D designs, engrave corporate branding signage, and carve complex architectural relief patterns across vast dimensions.
+                    </p>
+                    <p class="text-stone-300 leading-relaxed mb-8">
+                        Our workflow parses DXF, DWG, STEP, or high-fidelity 3D modeling files (.OBJ / STL) directly into specialized toolpaths, ensuring the physical cut matches the computer draft within a hair's breadth.
+                    </p>
+
+                    <!-- Interactive CNC Pattern Selector -->
+                    <div class="bg-stone-900 border border-stone-800 p-6 rounded-2xl">
+                        <span class="text-xs font-bold text-wood-400 uppercase tracking-wider block mb-4">Sample CNC Patterns (Click to Visualize Pattern)</span>
+                        <div class="grid grid-cols-4 gap-2">
+                            <button onclick="changeCncPattern('geometric', this)" class="cnc-pattern-btn p-3 bg-stone-800 border-2 border-wood-500 text-stone-200 rounded-xl hover:bg-stone-750 transition flex flex-col items-center gap-2">
+                                <i class="fa-solid fa-shapes text-lg text-wood-400"></i>
+                                <span class="text-[10px] font-semibold">Geometric</span>
+                            </button>
+                            <button onclick="changeCncPattern('wave', this)" class="cnc-pattern-btn p-3 bg-stone-800/50 border-2 border-transparent text-stone-300 rounded-xl hover:bg-stone-750 transition flex flex-col items-center gap-2">
+                                <i class="fa-solid fa-water text-lg"></i>
+                                <span class="text-[10px] font-semibold">Wave Flow</span>
+                            </button>
+                            <button onclick="changeCncPattern('slats', this)" class="cnc-pattern-btn p-3 bg-stone-800/50 border-2 border-transparent text-stone-300 rounded-xl hover:bg-stone-750 transition flex flex-col items-center gap-2">
+                                <i class="fa-solid fa-grip-lines-vertical text-lg"></i>
+                                <span class="text-[10px] font-semibold">3D Slats</span>
+                            </button>
+                            <button onclick="changeCncPattern('text', this)" class="cnc-pattern-btn p-3 bg-stone-800/50 border-2 border-transparent text-stone-300 rounded-xl hover:bg-stone-750 transition flex flex-col items-center gap-2">
+                                <i class="fa-solid fa-font text-lg"></i>
+                                <span class="text-[10px] font-semibold">Engraving</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CNC Interactive Display Mock -->
+                <div class="bg-stone-900 border border-stone-800 p-8 rounded-3xl relative shadow-2xl flex flex-col justify-between min-h-[460px]">
+                    <div class="flex items-center justify-between border-b border-stone-800 pb-4 mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-3 h-3 rounded-full bg-red-500 animate-pulse"></div>
+                            <span class="text-xs uppercase tracking-wider font-bold text-stone-400">Machine Feed: ACTIVE</span>
+                        </div>
+                        <span class="text-xs font-mono bg-stone-800 text-wood-300 px-2.5 py-1 rounded">X: 1420.25 | Y: 2110.15 | Z: -8.50</span>
+                    </div>
+
+                    <!-- Visual Panel changing according to CNC pattern selection -->
+                    <div class="flex-1 flex items-center justify-center py-6">
+                        <div id="cnc-visualizer-box" class="w-full max-w-sm aspect-video rounded-xl bg-amber-950 border border-amber-900 flex flex-col items-center justify-center p-6 text-center transition duration-500 relative shadow-inner overflow-hidden">
+                            <!-- Simulated wood veneer texture overlay -->
+                            <div class="absolute inset-0 opacity-15 bg-[url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=500&q=80')] bg-cover"></div>
+                            
+                            <!-- Pattern SVGs rendered dynamically -->
+                            <div id="pattern-svg-container" class="relative z-10 w-full flex justify-center">
+                                <!-- Default: Geometric Pattern -->
+                                <svg class="w-36 h-36 stroke-amber-500 fill-none" viewBox="0 0 100 100">
+                                    <polygon points="50,10 90,50 50,90 10,50" stroke-width="2"/>
+                                    <polygon points="50,25 75,50 50,75 25,50" stroke-width="1.5" stroke-dasharray="2,2"/>
+                                    <circle cx="50" cy="50" r="12" stroke-width="1"/>
+                                </svg>
+                            </div>
+                            <p id="cnc-visual-desc" class="text-xs text-wood-300/80 uppercase font-bold tracking-widest mt-4 relative z-10">Geometric Motif Pattern (Routing Depth 5.5mm)</p>
+                        </div>
+                    </div>
+
+                    <!-- Footnote detailing -->
+                    <div class="mt-6 flex items-center justify-between text-xs text-stone-400">
+                        <span>Tooling Used: 12mm Ballnose & 60deg V-Bit</span>
+                        <span class="brand-name-text">ABC Wood Works</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE SECTION: WOODWORK CONFIGURATOR & ESTIMATOR -->
+    <section id="estimator" class="py-24 bg-stone-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-wood-600 font-bold uppercase tracking-widest text-xs block mb-3">INSTANT CONFIGURATOR</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-950 mb-4">Design & Calculate Your Spec</h2>
+                <p class="text-stone-600">Select parameters below to dynamically configure a custom door or paneling structure, view custom SVG previews, and get an instantaneous ballpark cost estimate.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-12">
+                <!-- Configuration panel controls -->
+                <div class="lg:col-span-7 bg-white p-6 sm:p-10 rounded-3xl border border-stone-200/80 shadow-xl space-y-8">
+                    <h3 class="text-xl font-bold text-stone-900 border-b border-stone-100 pb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-wood-500"></i> Customizer Options
+                    </h3>
+
+                    <!-- Choice 1: Wood Species -->
+                    <div>
+                        <label class="block text-sm font-bold text-stone-700 mb-3 uppercase tracking-wider">1. Select Wood Material</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <button onclick="configuratorUpdate('wood', 'oak', this)" class="config-wood-btn py-3 px-2 text-center bg-stone-50 border-2 border-wood-500 text-stone-800 rounded-xl hover:bg-stone-100 font-bold text-xs transition">
+                                White Oak<br><span class="text-[9px] text-stone-400 font-normal">($$ Premium)</span>
+                            </button>
+                            <button onclick="configuratorUpdate('wood', 'walnut', this)" class="config-wood-btn py-3 px-2 text-center bg-stone-50 border-2 border-transparent text-stone-800 rounded-xl hover:bg-stone-100 font-bold text-xs transition">
+                                Black Walnut<br><span class="text-[9px] text-stone-400 font-normal">($$$ Ultra)</span>
+                            </button>
+                            <button onclick="configuratorUpdate('wood', 'ash', this)" class="config-wood-btn py-3 px-2 text-center bg-stone-50 border-2 border-transparent text-stone-800 rounded-xl hover:bg-stone-100 font-bold text-xs transition">
+                                White Ash<br><span class="text-[9px] text-stone-400 font-normal">($$ Stable)</span>
+                            </button>
+                            <button onclick="configuratorUpdate('wood', 'mdf', this)" class="config-wood-btn py-3 px-2 text-center bg-stone-50 border-2 border-transparent text-stone-800 rounded-xl hover:bg-stone-100 font-bold text-xs transition">
+                                MR-MDF<br><span class="text-[9px] text-stone-400 font-normal">($ Budget)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Choice 2: Base Design Structure -->
+                    <div>
+                        <label class="block text-sm font-bold text-stone-700 mb-3 uppercase tracking-wider">2. Base Design Layout</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <button onclick="configuratorUpdate('design', 'solid', this)" class="config-design-btn py-3.5 px-4 bg-stone-50 border-2 border-wood-500 text-stone-800 font-semibold text-xs rounded-xl hover:bg-stone-100 text-left transition flex items-center gap-2">
+                                <i class="fa-solid fa-square text-wood-500"></i> Flush Solid
+                            </button>
+                            <button onclick="configuratorUpdate('design', 'paneled', this)" class="config-design-btn py-3.5 px-4 bg-stone-50 border-2 border-transparent text-stone-800 font-semibold text-xs rounded-xl hover:bg-stone-100 text-left transition flex items-center gap-2">
+                                <i class="fa-solid fa-table-cells-large text-stone-400"></i> Classic Panel
+                            </button>
+                            <button onclick="configuratorUpdate('design', 'slatted', this)" class="config-design-btn py-3.5 px-4 bg-stone-50 border-2 border-transparent text-stone-800 font-semibold text-xs rounded-xl hover:bg-stone-100 text-left transition flex items-center gap-2">
+                                <i class="fa-solid fa-grip-lines text-stone-400"></i> Fluted Slats
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Choice 3: CNC Machined Detailing addon -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label class="block text-sm font-bold text-stone-700 uppercase tracking-wider">3. Advanced CNC detailing?</label>
+                            <span class="text-xs bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded">Adds 15% to cost</span>
+                        </div>
+                        <div class="flex items-center gap-4 bg-stone-50 p-4 rounded-xl border border-stone-200">
+                            <input type="checkbox" id="cnc-addon-checkbox" onchange="configuratorToggleCnc(this.checked)" class="w-5 h-5 accent-wood-600 rounded">
+                            <div>
+                                <span class="block text-xs font-bold text-stone-800">Add Pattern Carving & Custom Deep Routing Engraving</span>
+                                <span class="block text-[11px] text-stone-500">Includes multi-depth 3D routing along face of panels</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Choice 4: Dimensions slider -->
+                    <div class="space-y-4">
+                        <label class="block text-sm font-bold text-stone-700 uppercase tracking-wider">4. Sizing & Dimensions</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <div class="flex justify-between text-xs font-bold text-stone-600 mb-2">
+                                    <span>Width (Inches):</span>
+                                    <span id="slider-width-val">36"</span>
+                                </div>
+                                <input type="range" min="24" max="60" value="36" oninput="configuratorSizeUpdate('width', this.value)" class="w-full accent-wood-600">
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-bold text-stone-600 mb-2">
+                                    <span>Height (Inches):</span>
+                                    <span id="slider-height-val">84"</span>
+                                </div>
+                                <input type="range" min="72" max="120" value="84" oninput="configuratorSizeUpdate('height', this.value)" class="w-full accent-wood-600">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Dynamic Graphic and Dynamic Pricing output -->
+                <div class="lg:col-span-5 flex flex-col gap-6">
+                    <!-- Live Vector Visual of Custom Door -->
+                    <div class="bg-stone-900 p-8 rounded-3xl border border-stone-800 flex flex-col items-center justify-center min-h-[360px] shadow-2xl relative overflow-hidden">
+                        <!-- Abstract Grid Overlay -->
+                        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:12px_12px]"></div>
+
+                        <span class="text-[10px] bg-wood-950/80 text-wood-400 font-extrabold uppercase px-3 py-1 rounded tracking-widest mb-6 relative z-10 border border-wood-900">
+                            Live Custom Blueprint Preview
+                        </span>
+
+                        <!-- Dynamic SVG Door Frame -->
+                        <div id="door-blueprint-container" class="relative z-10 flex items-center justify-center py-2 h-72">
+                            <!-- SVG structure changing with variables -->
+                            <svg class="h-64 aspect-[3/7] drop-shadow-2xl" viewBox="0 0 100 240">
+                                <!-- Main outer frame/wood backdrop -->
+                                <rect x="5" y="5" width="90" height="230" rx="3" fill="#8a401f" stroke="#5c2a1a" stroke-width="4" id="svg-door-base" />
+                                
+                                <!-- Core Design Layer (Solid Flush panel default) -->
+                                <g id="svg-door-interior">
+                                    <line x1="12" y1="20" x2="12" y2="220" stroke="#70331c" stroke-width="2"/>
+                                    <line x1="88" y1="20" x2="88" y2="220" stroke="#70331c" stroke-width="2"/>
+                                    <line x1="12" y1="20" x2="88" y2="20" stroke="#70331c" stroke-width="2"/>
+                                    <line x1="12" y1="220" x2="88" y2="220" stroke="#70331c" stroke-width="2"/>
+                                </g>
+
+                                <!-- CNC Engraving layer Overlay (conditional) -->
+                                <g id="svg-door-cnc" class="hidden">
+                                    <path d="M 50 40 L 80 80 L 50 120 L 20 80 Z" stroke="#d97706" stroke-width="1.5" fill="none"/>
+                                    <path d="M 50 130 L 80 170 L 50 210 L 20 170 Z" stroke="#d97706" stroke-width="1.5" fill="none"/>
+                                </g>
+
+                                <!-- Premium Metal Pull Bar Handle -->
+                                <rect x="80" y="80" width="3" height="80" rx="1" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+                            </svg>
+                        </div>
+
+                        <!-- Mini feedback labels -->
+                        <div class="mt-4 text-center z-10 text-stone-300">
+                            <span id="label-blueprint-dimensions" class="text-xs font-mono font-bold block bg-stone-800 text-stone-300 px-3 py-1 rounded">36" x 84"</span>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Pricing display card -->
+                    <div class="bg-gradient-to-br from-wood-800 to-wood-950 text-white p-8 rounded-3xl shadow-2xl relative overflow-hidden flex flex-col justify-between">
+                        <!-- Swirling decorative circle -->
+                        <div class="absolute -right-12 -bottom-12 w-48 h-48 bg-wood-500/10 rounded-full blur-xl"></div>
+
+                        <div>
+                            <span class="text-[10px] text-wood-300 font-extrabold uppercase tracking-widest block mb-1">Estimated Cost Breakdown</span>
+                            <div class="flex items-baseline gap-2 mt-2">
+                                <span class="text-4xl font-black text-white" id="pricing-total">$1,450</span>
+                                <span class="text-xs text-wood-300 font-medium">USD (Ballpark)</span>
+                            </div>
+                            <p class="text-[11px] text-wood-300/80 leading-relaxed mt-4">
+                                This price includes custom-mill design processing, clean face dimension planing, premium commercial-grade protective clear sealants, and direct workshop freight-prep. It excludes optional installation frames and shipping logistics.
+                            </p>
+                        </div>
+
+                        <div class="mt-8 pt-6 border-t border-wood-800 flex items-center justify-between gap-4">
+                            <div>
+                                <span class="block text-[10px] font-bold text-wood-300 uppercase">Selected Material:</span>
+                                <span id="label-pricing-wood" class="text-sm font-extrabold block text-white uppercase">White Oak</span>
+                            </div>
+                            <button onclick="applyConfigurationToForm()" class="bg-white hover:bg-wood-100 text-wood-950 font-bold px-5 py-2.5 rounded-xl text-xs uppercase tracking-wider transition">
+                                Apply To Quote Form
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: RECENT PROJECTS GALLERY -->
+    <section id="gallery" class="py-24 bg-white border-t border-stone-200">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-start md:items-end justify-between mb-16 gap-6">
+                <div>
+                    <span class="text-wood-600 font-bold uppercase tracking-widest text-xs block mb-3">WORKSHOP SNAPSHOTS</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-950">Excellence In Every Project</h2>
+                </div>
+                <!-- Gallery filters -->
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="filterGallery('all', this)" class="gallery-filter-btn px-4 py-2 bg-stone-900 text-white font-bold text-xs rounded-full transition shadow">All Projects</button>
+                    <button onclick="filterGallery('doors', this)" class="gallery-filter-btn px-4 py-2 bg-stone-100 text-stone-600 font-bold text-xs rounded-full transition hover:bg-stone-200">Custom Doors</button>
+                    <button onclick="filterGallery('cnc', this)" class="gallery-filter-btn px-4 py-2 bg-stone-100 text-stone-600 font-bold text-xs rounded-full transition hover:bg-stone-200">CNC Works</button>
+                </div>
+            </div>
+
+            <!-- Gallery grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="gallery-item-card group overflow-hidden rounded-2xl bg-stone-50 border border-stone-200" data-category="doors">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=80" alt="Walnut Pivot Door" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute bottom-4 left-4 bg-stone-900/90 text-stone-100 text-[10px] font-bold px-2.5 py-1 rounded">Exterior Door</span>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-extrabold text-stone-950 text-lg mb-1">Architectural Pivot Entry</h4>
+                        <p class="text-xs text-stone-600">60mm Solid Walnut slab with structural internal steel stabilization rods.</p>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="gallery-item-card group overflow-hidden rounded-2xl bg-stone-50 border border-stone-200" data-category="cnc">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80" alt="CNC Carving" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute bottom-4 left-4 bg-stone-900/90 text-stone-100 text-[10px] font-bold px-2.5 py-1 rounded">CNC Detailing</span>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-extrabold text-stone-950 text-lg mb-1">Custom Dynamic Wave Paneling</h4>
+                        <p class="text-xs text-stone-600">3D carved wave panels seamlessly flowing across vertical wall joints.</p>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="gallery-item-card group overflow-hidden rounded-2xl bg-stone-50 border border-stone-200" data-category="doors">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1611486212557-88be5ff6f905?auto=format&fit=crop&w=600&q=80" alt="Acoustic Panels" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute bottom-4 left-4 bg-stone-900/90 text-stone-100 text-[10px] font-bold px-2.5 py-1 rounded">Interior Door</span>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-extrabold text-stone-950 text-lg mb-1">Acoustic Slatted White Oak Barn door</h4>
+                        <p class="text-xs text-stone-600">Soft closing mechanisms coupled with genuine high-density sound batting.</p>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="gallery-item-card group overflow-hidden rounded-2xl bg-stone-50 border border-stone-200" data-category="cnc">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80" alt="Workshop CNC Works" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute bottom-4 left-4 bg-stone-900/90 text-stone-100 text-[10px] font-bold px-2.5 py-1 rounded">CNC Routing</span>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-extrabold text-stone-950 text-lg mb-1">Fretwork Acoustic Ceilings</h4>
+                        <p class="text-xs text-stone-600">Complex open-grid lattice ceiling arrays carved on stable fire-rated composite boards.</p>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="gallery-item-card group overflow-hidden rounded-2xl bg-stone-50 border border-stone-200" data-category="doors">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=600&q=80" alt="Door Machining" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute bottom-4 left-4 bg-stone-900/90 text-stone-100 text-[10px] font-bold px-2.5 py-1 rounded">Architectural</span>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-extrabold text-stone-950 text-lg mb-1">Modern Frame and Bevel Paneled Doors</h4>
+                        <p class="text-xs text-stone-600">Set of 12 bespoke interior frames custom routed with elegant beveled lines.</p>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="gallery-item-card group overflow-hidden rounded-2xl bg-stone-50 border border-stone-200" data-category="cnc">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=600&q=80" alt="Custom Signage" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute bottom-4 left-4 bg-stone-900/90 text-stone-100 text-[10px] font-bold px-2.5 py-1 rounded">CNC Detailing</span>
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-extrabold text-stone-950 text-lg mb-1">Commercial 3D Logo Engravings</h4>
+                        <p class="text-xs text-stone-600">Premium maple slabs meticulously routed with complex custom branding crests.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION: CONTACT & DETAILED QUOTE FORM -->
+    <section id="contact" class="py-24 bg-stone-100 relative">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="bg-white rounded-3xl border border-stone-200 shadow-2xl p-8 sm:p-12 relative z-10">
+                <div class="text-center max-w-xl mx-auto mb-12">
+                    <h2 class="text-3xl font-extrabold text-stone-950">Let's Craft Together</h2>
+                    <p class="text-stone-600 mt-2">Submit your basic ideas, dimensions, or technical wood specs below. We reply with solid details within 24 business hours.</p>
+                </div>
+
+                <form id="quote-request-form" onsubmit="handleQuoteSubmit(event)" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">Your Full Name</label>
+                            <input type="text" id="form-name" required class="w-full px-4 py-3 bg-stone-50 border border-stone-300 rounded-xl focus:ring-2 focus:ring-wood-500 focus:outline-none transition text-sm text-stone-950" placeholder="e.g. John Doe">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">Email Address</label>
+                            <input type="email" id="form-email" required class="w-full px-4 py-3 bg-stone-50 border border-stone-300 rounded-xl focus:ring-2 focus:ring-wood-500 focus:outline-none transition text-sm text-stone-950" placeholder="e.g. john@example.com">
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">Primary Material Preference</label>
+                            <select id="form-wood" class="w-full px-4 py-3 bg-stone-50 border border-stone-300 rounded-xl focus:ring-2 focus:ring-wood-500 focus:outline-none transition text-sm text-stone-950">
+                                <option value="oak">White Oak</option>
+                                <option value="walnut">Black Walnut</option>
+                                <option value="ash">White Ash</option>
+                                <option value="mdf">Moisture Resistant MDF</option>
+                                <option value="other">Other Sourced Hardwoods</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">Layout Base Type</label>
+                            <select id="form-design" class="w-full px-4 py-3 bg-stone-50 border border-stone-300 rounded-xl focus:ring-2 focus:ring-wood-500 focus:outline-none transition text-sm text-stone-950">
+                                <option value="solid">Flush Solid</option>
+                                <option value="paneled">Classic Panel</option>
+                                <option value="slatted">Fluted Slats</option>
+                                <option value="custom">Custom CNC Carvings Only</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">Width (Inches)</label>
+                            <input type="number" id="form-width" value="36" class="w-full px-4 py-3 bg-stone-50 border border-stone-300 rounded-xl focus:ring-2 focus:ring-wood-500 focus:outline-none transition text-sm text-stone-950">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">Height (Inches)</label>
+                            <input type="number" id="form-height" value="84" class="w-full px-4 py-3 bg-stone-50 border border-stone-300 rounded-xl focus:ring-2 focus:ring-wood-500 focus:outline-none transition text-sm text-stone-950">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">CNC Detailing Add-on?</label>
+                            <select id="form-cnc" class="w-full px-4 py-3 bg-stone-50 border border-stone-300 rounded-xl focus:ring-2 focus:ring-wood-500 focus:outline-none transition text-sm text-stone-950">
+                                <option value="no">No CNC Detailing</option>
+                                <option value="yes">Include CNC Pattern Detailing</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">Additional Specifications & Notes</label>
+                        <textarea id="form-details" rows="4" class="w-full px-4 py-3 bg-stone-50 border border-stone-300 rounded-xl focus:ring-2 focus:ring-wood-500 focus:outline-none transition text-sm text-stone-950" placeholder="Mention hinge placement, frame types, specific finishing oil requirements, etc..."></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full bg-stone-950 hover:bg-stone-900 text-wood-400 hover:text-white font-extrabold py-4 rounded-xl transition tracking-widest uppercase text-sm shadow-xl flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i> Submit Request to <span class="brand-name-text">ABC Wood Works</span>
+                    </button>
+                </form>
+
+                <!-- Feedback Message Modal after submission -->
+                <div id="success-modal" class="hidden absolute inset-0 bg-white/95 backdrop-blur rounded-3xl flex flex-col items-center justify-center p-8 text-center z-20">
+                    <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-3xl mb-4">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <h3 class="text-2xl font-extrabold text-stone-950">Request Submitted Successfully!</h3>
+                    <p class="text-stone-600 max-w-md mt-2">
+                        Thank you! We have logged your request. The estimating team at <span class="brand-name-text font-bold text-stone-900">ABC Wood Works</span> is on it. We will email your formal quote shortly.
+                    </p>
+                    <button onclick="resetQuoteForm()" class="mt-8 bg-stone-900 hover:bg-stone-800 text-white font-bold px-6 py-3 rounded-xl text-xs uppercase tracking-wider">
+                        Configure Another Estimate
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-stone-950 text-stone-400 py-16 px-4 border-t border-stone-900">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-12 gap-12 mb-12">
+            <!-- Col 1: Brand details -->
+            <div class="md:col-span-4 space-y-4">
+                <div class="flex items-center gap-3 text-stone-100">
+                    <div class="p-2 bg-wood-600 rounded text-white">
+                        <i class="fa-solid fa-compass-drafting text-lg"></i>
+                    </div>
+                    <span class="font-extrabold tracking-tight text-xl uppercase brand-name-text">ABC Wood Works</span>
+                </div>
+                <p class="text-sm text-stone-400 leading-relaxed max-w-sm">
+                    Premium CNC routing, handcrafted wooden entry doors, and precision digital joinery. Sourced responsibly, fabricated meticulously.
+                </p>
+            </div>
+
+            <!-- Col 2: Services Quick Links -->
+            <div class="md:col-span-4 space-y-4">
+                <h4 class="font-bold text-white uppercase text-xs tracking-wider">Workshop Capabilities</h4>
+                <ul class="space-y-2 text-sm text-stone-400">
+                    <li><a href="#doors" class="hover:text-wood-400 transition">Custom Front Entry Doors</a></li>
+                    <li><a href="#doors" class="hover:text-wood-400 transition">Paneled & Slatted Interior Doors</a></li>
+                    <li><a href="#cnc" class="hover:text-wood-400 transition">Multi-Depth 3D CNC Carvings</a></li>
+                    <li><a href="#cnc" class="hover:text-wood-400 transition">Commercial Component Routing</a></li>
+                </ul>
+            </div>
+
+            <!-- Col 3: Workshop Hours & Contact info -->
+            <div class="md:col-span-4 space-y-4 text-sm">
+                <h4 class="font-bold text-white uppercase text-xs tracking-wider text-left">Workshop Hours</h4>
+                <p class="text-stone-400">Monday - Friday: 8:00 AM - 5:00 PM<br>Saturday: By Appointment Only</p>
+                <div class="pt-2 flex items-center gap-2">
+                    <i class="fa-solid fa-location-dot text-wood-500"></i>
+                    <span class="text-stone-300">Industrial District, Bay 12, ABC Woodworks Plaza</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto pt-8 border-t border-stone-900 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
+            <p>&copy; 2026 <span class="brand-name-text">ABC Wood Works</span> Workshop. Crafted with precision.</p>
+            <div class="flex gap-4">
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram text-lg"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-facebook text-lg"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-solid fa-envelope text-lg"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT STATE CONTROLLER -->
+    <script>
+        // Default Global State Values
+        let appState = {
+            workshopName: "ABC Wood Works",
+            accentTheme: "wood",
+            selectedWood: "oak",
+            selectedDesign: "solid",
+            includeCnc: false,
+            doorWidth: 36,
+            doorHeight: 84
+        };
+
+        // DOM elements cache
+        const brandNameNodes = document.querySelectorAll('.brand-name-text');
+        const tabTitleNode = document.getElementById('tab-title');
+        const badgeThemeNode = document.getElementById('badge-theme');
+        const mobileMenuNode = document.getElementById('mobile-menu');
+
+        // Dynamic pricing matrix base definitions
+        const materialCosts = {
+            oak: { name: "White Oak", baseRate: 15.0 }, // per sq inch base
+            walnut: { name: "Black Walnut", baseRate: 22.0 },
+            ash: { name: "White Ash", baseRate: 14.0 },
+            mdf: { name: "MR-MDF", baseRate: 7.0 }
+        };
+
+        const designMultipliers = {
+            solid: 1.0,
+            paneled: 1.2,
+            slatted: 1.35
+        };
+
+        // 1. Live change of Company workshop name across all elements
+        function updateWorkshopName(newName) {
+            if (!newName.trim()) {
+                newName = "ABC Wood Works";
+            }
+            appState.workshopName = newName;
+            
+            // Iterate and update all elements featuring workshop branding
+            brandNameNodes.forEach(node => {
+                node.textContent = newName;
+            });
+            tabTitleNode.textContent = `${newName} | Premium Doors & Custom CNC Works`;
+        }
+
+        // 2. Mobile Responsive navigation toggler
+        function toggleMobileMenu() {
+            if (mobileMenuNode.classList.contains('hidden')) {
+                mobileMenuNode.classList.remove('hidden');
+            } else {
+                mobileMenuNode.classList.add('hidden');
+            }
+        }
+
+        // 3. Simple Dynamic Color Theming switcher
+        function setTheme(theme) {
+            appState.accentTheme = theme;
+            
+            // Remove previous colors and assign selected palette classes
+            document.querySelectorAll('nav a, footer a').forEach(el => {
+                el.classList.remove('text-amber-500', 'text-wood-500', 'text-stone-500', 'text-emerald-500');
+            });
+            
+            // Find CTA buttons and adjust
+            const mainCtas = document.querySelectorAll('.bg-wood-600, .bg-amber-600, .bg-stone-600, .bg-emerald-600');
+            mainCtas.forEach(cta => {
+                cta.className = cta.className.replace(/bg-\w+-600/, `bg-${theme}-600`);
+                cta.className = cta.className.replace(/hover:bg-\w+-500/, `hover:bg-${theme}-500`);
+            });
+        }
+
+        // 4. Interactive CNC patterns selector simulation
+        function changeCncPattern(patternType, element) {
+            // Remove highlighting active state classes from previous buttons
+            document.querySelectorAll('.cnc-pattern-btn').forEach(btn => {
+                btn.className = "cnc-pattern-btn p-3 bg-stone-800/50 border-2 border-transparent text-stone-300 rounded-xl hover:bg-stone-750 transition flex flex-col items-center gap-2";
+            });
+
+            // Highlight newly active button
+            element.className = "cnc-pattern-btn p-3 bg-stone-800 border-2 border-wood-500 text-stone-200 rounded-xl hover:bg-stone-750 transition flex flex-col items-center gap-2";
+
+            const visualizerBox = document.getElementById('cnc-visualizer-box');
+            const svgContainer = document.getElementById('pattern-svg-container');
+            const visualDesc = document.getElementById('cnc-visual-desc');
+
+            if(patternType === 'geometric') {
+                svgContainer.innerHTML = `
+                    <svg class="w-36 h-36 stroke-amber-500 fill-none" viewBox="0 0 100 100">
+                        <polygon points="50,10 90,50 50,90 10,50" stroke-width="2"/>
+                        <polygon points="50,25 75,50 50,75 25,50" stroke-width="1.5" stroke-dasharray="2,2"/>
+                        <circle cx="50" cy="50" r="12" stroke-width="1"/>
+                    </svg>
+                `;
+                visualDesc.textContent = "Geometric Motif Pattern (Routing Depth 5.5mm)";
+            } else if(patternType === 'wave') {
+                svgContainer.innerHTML = `
+                    <svg class="w-36 h-36 stroke-amber-500 fill-none" viewBox="0 0 100 100">
+                        <path d="M 0 20 Q 25 5, 50 20 T 100 20 M 0 40 Q 25 25, 50 40 T 100 40 M 0 60 Q 25 45, 50 60 T 100 60 M 0 80 Q 25 65, 50 80 T 100 80" stroke-width="2"/>
+                    </svg>
+                `;
+                visualDesc.textContent = "Wave Flow 3D Texture (Routing Depth 8.0mm)";
+            } else if(patternType === 'slats') {
+                svgContainer.innerHTML = `
+                    <svg class="w-36 h-36 stroke-amber-500 fill-none" viewBox="0 0 100 100">
+                        <line x1="10" y1="10" x2="10" y2="90" stroke-width="3" />
+                        <line x1="25" y1="10" x2="25" y2="90" stroke-width="3" />
+                        <line x1="40" y1="10" x2="40" y2="90" stroke-width="3" />
+                        <line x1="55" y1="10" x2="55" y2="90" stroke-width="3" />
+                        <line x1="70" y1="10" x2="70" y2="90" stroke-width="3" />
+                        <line x1="85" y1="10" x2="85" y2="90" stroke-width="3" />
+                    </svg>
+                `;
+                visualDesc.textContent = "Vertical 3D Fluting/Slat Grid (Depth 12.0mm)";
+            } else if(patternType === 'text') {
+                svgContainer.innerHTML = `
+                    <svg class="w-36 h-36 fill-amber-500 stroke-none" viewBox="0 0 100 100">
+                        <text x="50" y="45" font-family="serif" font-size="28" font-weight="bold" text-anchor="middle">A</text>
+                        <text x="50" y="70" font-family="sans-serif" font-size="16" letter-spacing="2" text-anchor="middle">WOOD</text>
+                        <rect x="10" y="15" width="80" height="70" stroke="#d97706" stroke-width="1.5" fill="none"/>
+                    </svg>
+                `;
+                visualDesc.textContent = "Signage Typographic Engraving (Depth 4.0mm)";
+            }
+        }
+
+        // 5. Door Configurator calculations & dynamic SVG rendering updates
+        function configuratorUpdate(type, value, element) {
+            // Adjust State
+            if (type === 'wood') {
+                appState.selectedWood = value;
+                // Highlight btn
+                document.querySelectorAll('.config-wood-btn').forEach(btn => btn.classList.replace('border-wood-500', 'border-transparent'));
+                element.classList.replace('border-transparent', 'border-wood-500');
+            } else if (type === 'design') {
+                appState.selectedDesign = value;
+                // Highlight btn
+                document.querySelectorAll('.config-design-btn').forEach(btn => btn.classList.replace('border-wood-500', 'border-transparent'));
+                element.classList.replace('border-transparent', 'border-wood-500');
+            }
+
+            // Sync visual representation and recalculate pricing
+            renderBlueprintSVG();
+            recalculatePrice();
+        }
+
+        function configuratorToggleCnc(isEnabled) {
+            appState.includeCnc = isEnabled;
+            renderBlueprintSVG();
+            recalculatePrice();
+        }
+
+        function configuratorSizeUpdate(dim, value) {
+            if (dim === 'width') {
+                appState.doorWidth = parseInt(value);
+                document.getElementById('slider-width-val').textContent = value + '"';
+            } else if (dim === 'height') {
+                appState.doorHeight = parseInt(value);
+                document.getElementById('slider-height-val').textContent = value + '"';
+            }
+
+            document.getElementById('label-blueprint-dimensions').textContent = `${appState.doorWidth}" x ${appState.doorHeight}"`;
+            recalculatePrice();
+        }
+
+        // Live SVG graphic renderer
+        function renderBlueprintSVG() {
+            const svgBase = document.getElementById('svg-door-base');
+            const svgInterior = document.getElementById('svg-door-interior');
+            const svgCnc = document.getElementById('svg-door-cnc');
+
+            // Apply realistic colors to base rect based on wood selection
+            let woodHex = "#8a401f"; // Oak default
+            let borderHex = "#5c2a1a";
+
+            if (appState.selectedWood === 'walnut') {
+                woodHex = "#422013";
+                borderHex = "#27120a";
+            } else if (appState.selectedWood === 'ash') {
+                woodHex = "#bfa38a";
+                borderHex = "#8f735c";
+            } else if (appState.selectedWood === 'mdf') {
+                woodHex = "#9ca3af";
+                borderHex = "#6b7280";
+            }
+            svgBase.setAttribute('fill', woodHex);
+            svgBase.setAttribute('stroke', borderHex);
+
+            // Change interior design lines
+            if (appState.selectedDesign === 'solid') {
+                svgInterior.innerHTML = `
+                    <line x1="12" y1="20" x2="12" y2="220" stroke="${borderHex}" stroke-width="2"/>
+                    <line x1="88" y1="20" x2="88" y2="220" stroke="${borderHex}" stroke-width="2"/>
+                    <line x1="12" y1="20" x2="88" y2="20" stroke="${borderHex}" stroke-width="2"/>
+                    <line x1="12" y1="220" x2="88" y2="220" stroke="${borderHex}" stroke-width="2"/>
+                `;
+            } else if (appState.selectedDesign === 'paneled') {
+                svgInterior.innerHTML = `
+                    <!-- Paneled divisions -->
+                    <rect x="15" y="20" width="70" height="60" fill="none" stroke="${borderHex}" stroke-width="2"/>
+                    <rect x="15" y="90" width="70" height="60" fill="none" stroke="${borderHex}" stroke-width="2"/>
+                    <rect x="15" y="160" width="70" height="60" fill="none" stroke="${borderHex}" stroke-width="2"/>
+                `;
+            } else if (appState.selectedDesign === 'slatted') {
+                svgInterior.innerHTML = `
+                    <!-- Vertical Slats lines -->
+                    <line x1="15" y1="20" x2="15" y2="220" stroke="${borderHex}" stroke-width="1.5"/>
+                    <line x1="25" y1="20" x2="25" y2="220" stroke="${borderHex}" stroke-width="1.5"/>
+                    <line x1="35" y1="20" x2="35" y2="220" stroke="${borderHex}" stroke-width="1.5"/>
+                    <line x1="45" y1="20" x2="45" y2="220" stroke="${borderHex}" stroke-width="1.5"/>
+                    <line x1="55" y1="20" x2="55" y2="220" stroke="${borderHex}" stroke-width="1.5"/>
+                    <line x1="65" y1="20" x2="65" y2="220" stroke="${borderHex}" stroke-width="1.5"/>
+                    <line x1="75" y1="20" x2="75" y2="220" stroke="${borderHex}" stroke-width="1.5"/>
+                    <line x1="85" y1="20" x2="85" y2="220" stroke="${borderHex}" stroke-width="1.5"/>
+                `;
+            }
+
+            // Toggle CNC Overlay layer display
+            if (appState.includeCnc) {
+                svgCnc.classList.remove('hidden');
+            } else {
+                svgCnc.classList.add('hidden');
+            }
+        }
+
+        // Live Cost Estimator Algorithm
+        function recalculatePrice() {
+            const sqInches = appState.doorWidth * appState.doorHeight;
+            const woodData = materialCosts[appState.selectedWood];
+            const designMult = designMultipliers[appState.selectedDesign];
+
+            // Core Formula
+            let calculatedCost = sqInches * (woodData.baseRate / 24) * designMult;
+
+            // Apply 15% addon if CNC is chosen
+            if (appState.includeCnc) {
+                calculatedCost *= 1.15;
+            }
+
+            // Rounded to closest 5 dollars
+            const finalEstimate = Math.round(calculatedCost / 5) * 5;
+
+            // Update UI elements
+            document.getElementById('pricing-total').textContent = `$${finalEstimate.toLocaleString()}`;
+            document.getElementById('label-pricing-wood').textContent = woodData.name;
+        }
+
+        // Synchronize Estimator with main Custom Contact Form input fields
+        function applyConfigurationToForm() {
+            document.getElementById('form-name').scrollIntoView({ behavior: 'smooth' });
+            
+            // Set Select fields inside custom quote
+            document.getElementById('form-wood').value = appState.selectedWood;
+            document.getElementById('form-design').value = appState.selectedDesign;
+            document.getElementById('form-width').value = appState.doorWidth;
+            document.getElementById('form-height').value = appState.doorHeight;
+            document.getElementById('form-cnc').value = appState.includeCnc ? 'yes' : 'no';
+
+            document.getElementById('form-details').value = `Pre-populated from the dynamic cost-estimator calculator tool ($${document.getElementById('pricing-total').textContent} rough spec).`;
+        }
+
+        // 6. Gallery filtering
+        function filterGallery(category, element) {
+            // Toggle highlight on filter buttons
+            document.querySelectorAll('.gallery-filter-btn').forEach(btn => {
+                btn.className = "gallery-filter-btn px-4 py-2 bg-stone-100 text-stone-600 font-bold text-xs rounded-full transition hover:bg-stone-200";
+            });
+            element.className = "gallery-filter-btn px-4 py-2 bg-stone-900 text-white font-bold text-xs rounded-full transition shadow";
+
+            // Hide/Show items
+            document.querySelectorAll('.gallery-item-card').forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // 7. Handle Quote form Submission simulation
+        function handleQuoteSubmit(event) {
+            event.preventDefault();
+            // Show Success simulation modal
+            document.getElementById('success-modal').classList.remove('hidden');
+        }
+
+        function resetQuoteForm() {
+            // Hide Modal, clear fields
+            document.getElementById('success-modal').classList.add('hidden');
+            document.getElementById('quote-request-form').reset();
+        }
+
+        // Initialize UI values on startup
+        window.onload = function() {
+            renderBlueprintSVG();
+            recalculatePrice();
+        };
+    </script>
+</body>
+</html>
